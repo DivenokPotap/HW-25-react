@@ -1,0 +1,34 @@
+p{
+    text-decoration: none;
+}
+.navigation{
+    gap: 50px;
+}
+.Actors{
+    margin-right: 100px;
+}
+.ActorsActive{
+    color: aliceblue;
+    font-size: 25px;
+}
+.ReviewsActive{
+    color: aliceblue;
+    font-size: 25px;
+}
+.nav a{
+    margin-right: 50px;
+}
+.nav{
+    margin-top: 20px;
+    margin-left: 50px;
+}
+.section{
+    margin-top: 50px;
+}
+.moviecard p{
+    margin-top: 10px;
+}
+.moviecard{
+    width: 500px;
+    margin-left: 320px;
+}

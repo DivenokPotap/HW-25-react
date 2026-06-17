@@ -1,0 +1,18 @@
+.HomeActive{
+    color: aliceblue;
+    font-size: 20px;
+}
+.MoviesActive{
+    color: aliceblue;
+    font-size: 20px;
+}
+.nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 30px;
+    margin-right: 100px;
+}
+.logo{
+    margin-left: 100px;
+}
