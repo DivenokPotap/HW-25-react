@@ -14,11 +14,13 @@ const App = () => {
   return (
     <Routes>
      <Route path="/" element={<Layout/>}>
-     <Route index element={<Trending/>}></Route>
-     <Route path="movies" element={<Movies/>}></Route>
+     <Route index element={<Trending/>}/>
+     <Route path="movies" element={<Movies/>}/>
+
      <Route path="movies/:movieId" element={<MovieDetails/>}>
-     <Route path="cast" element={<MovieCast/>}></Route>
-     <Route path="reviews" element={<MovieReviews/>}></Route>
+     <Route path="cast" element={<MovieCast/>}/>
+     <Route path="reviews" element={<MovieReviews/>}/>
+     
      </Route>
 
      <Route path="*" element={<NotFound />} />

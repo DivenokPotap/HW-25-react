@@ -89,6 +89,7 @@ h2 {
 h1 {
   font-size: 56px;
   letter-spacing: -1.68px;
+  line-height: 120%;
   margin: 32px 0;
   @media (max-width: 1024px) {
     font-size: 36px;
@@ -106,6 +107,10 @@ h2 {
 }
 p {
   margin: 0;
+}
+
+img{
+  border-radius: 5px;
 }
 
 code,
