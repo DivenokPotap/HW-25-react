@@ -14,9 +14,10 @@ export const api = axios.create({
     return data.results;
   };
 
-  export const searchMovies = async (query) => {
+  export const searchMovies = async (query, signal) => {
     const { data } = await api.get("/search/movie", {
       params: { query },
+      signal,
     });
   
     return data.results;

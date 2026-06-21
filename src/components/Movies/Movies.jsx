@@ -1,5 +1,5 @@
 import { Link,  } from "react-router-dom";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { searchMovies } from "../../data/tmdb";
 import styles from "./Movies.module.css"
 
@@ -30,6 +30,8 @@ const Movies = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  const controllerRef = useRef(null);
+
   const handleChange = (e) => {
     setQuery(e.target.value);
     setMovieitems([]);
@@ -40,17 +42,25 @@ const Movies = () => {
 
     if (!query) return;
 
+    if (controllerRef.current) {
+      controllerRef.current.abort();
+    }
+
+    controllerRef.current = new AbortController();
     setIsLoading(true);
     setError(null);
 
     try {
-      const data = await searchMovies(query);
+      const data = await searchMovies(query , controllerRef.current.signal);
       setMovieitems(data);
     } catch (error) {
-      setError("Error fetching movies");
+      if (error.code !== "ERR_CANCELED") {
+        setError("Error fetching movies");
+      }
     } finally {
       setIsLoading(false);
     }
+
   };
 
   return (
