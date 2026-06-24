@@ -1,5 +1,5 @@
-import { Link,  } from "react-router-dom";
-import { useState, useRef } from "react";
+import { Link, useSearchParams  } from "react-router-dom";
+import { useState, useRef, useEffect } from "react";
 import { searchMovies } from "../../data/tmdb";
 import styles from "./Movies.module.css"
 
@@ -26,27 +26,38 @@ const MovieList = ({ movieitems = [] }) => {
 
 const Movies = () => {
   const [movieitems, setMovieitems] = useState([]);
-  const [query, setQuery] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams(); 
+  const query = searchParams.get("q") ?? "";
+  const [inputValue, setInputValue] = useState(query);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const controllerRef = useRef(null);
+  const handleSearch = () => {
+    setSearchParams((prev) => {
+      const params = new URLSearchParams(prev);
+      if(inputValue){
+        params.set("q", inputValue)
+      } else {
+        params.delete("q")
+      }
 
-  const handleChange = (e) => {
-    setQuery(e.target.value);
-    setMovieitems([]);
+      return params;
+    })
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (!query) return;
+  const controllerRef = useRef();
+useEffect(() => {
+    if (!query) {
+      setMovieitems([])
+      return;
+    } 
 
     if (controllerRef.current) {
       controllerRef.current.abort();
     }
 
     controllerRef.current = new AbortController();
+  const fetchMovies = async () => {
     setIsLoading(true);
     setError(null);
 
@@ -54,27 +65,31 @@ const Movies = () => {
       const data = await searchMovies(query , controllerRef.current.signal);
       setMovieitems(data);
     } catch (error) {
-      if (error.code !== "ERR_CANCELED") {
-        setError("Error fetching movies");
+      if (error.name === "CanceledError") {
+        return;
       }
+      setError("Error fetching movies");
     } finally {
-      setIsLoading(false);
+        setIsLoading(false);
     }
+  }
+  
+  fetchMovies()
 
-  };
+  }, [query] );
 
   return (
     <div>
       <h2 className={styles.title}>Найдіть любий фільм!</h2>
-      <form onSubmit={handleSubmit}>
-        <input className={styles.search}
+        <input className={styles.search} 
           placeholder="Введіть назву фільму"
           type="text"
-          value={query}
-          onChange={handleChange}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
         />
-        <button className={styles.button} type="submit">Search</button>
-      </form>
+        <button className={styles.button} onClick={handleSearch}>Search</button>
+
+        { !isLoading && movieitems.length === 0 && query && <h2 className={styles.notFound}>Немає фільмів по вашому запиту</h2>}
 
       {isLoading && <p>Loading...</p>}
       {error && <p>{error}</p>}
