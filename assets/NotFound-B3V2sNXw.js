@@ -1,0 +1,1 @@
+import{n as e,t}from"./index-_jjb3szO.js";var n={wrap:`_wrap_1hea9_1`},r=t(),i=()=>(0,r.jsxs)(`div`,{className:n.wrap,children:[(0,r.jsx)(`h1`,{children:`Помилка 404`}),(0,r.jsx)(`h1`,{children:`Такої сторінки нема!`}),(0,r.jsx)(e,{to:`/`,children:(0,r.jsx)(`h2`,{children:`Назад до домашньої сторінки`})})]});export{i as default};
