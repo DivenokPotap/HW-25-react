@@ -49,7 +49,7 @@ const Movies = () => {
 useEffect(() => {
     if (!query) {
       setMovieitems([])
-      return;
+      return
     } 
 
     if (controllerRef.current) {
@@ -65,10 +65,9 @@ useEffect(() => {
       const data = await searchMovies(query , controllerRef.current.signal);
       setMovieitems(data);
     } catch (error) {
-      if (error.name === "CanceledError") {
-        return;
+      if (error.code !== "ERR_CANCELED") {
+        setError("Error fetching movies");
       }
-      setError("Error fetching movies");
     } finally {
         setIsLoading(false);
     }
